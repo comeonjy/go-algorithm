@@ -89,6 +89,7 @@ func (l *List) Delete(value interface{}) bool {
 			}else{
 				temp.Left.Right=nil
 			}
+			l.Length--
 			return true
 		}
 		temp=temp.Right

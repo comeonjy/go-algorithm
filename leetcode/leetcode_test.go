@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func BenchmarkB15(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		threeSum([]int{82597,-9243,62390,83030,-97960,-26521,-61011,83390,-38677,12333,75987,46091,83794,193})
+	}
+}
+
+func TestB15(t *testing.T) {
+	fmt.Println(threeSum([]int{0, 0, 0}))
+}
+
 func TestA21(t *testing.T) {
 	a := &ListNode{
 		Val: 1,

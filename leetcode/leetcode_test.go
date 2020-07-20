@@ -5,9 +5,23 @@ import (
 	"testing"
 )
 
+func TestA283(t *testing.T) {
+	nums := []int{0, 1, 0, 2, 0, 0, 0, 3, 4, 0, 5, 0}
+	moveZeroes(nums)
+	fmt.Println(nums)
+}
+
+func BenchmarkA283(b *testing.B) {
+	nums := []int{0, 1, 0, 2, 0, 0, 0, 3, 4, 0, 5, 0}
+
+	for i := 0; i < b.N; i++ {
+		moveZeroes(nums)
+	}
+}
+
 func BenchmarkB15(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		threeSum([]int{82597,-9243,62390,83030,-97960,-26521,-61011,83390,-38677,12333,75987,46091,83794,193})
+		threeSum([]int{82597, -9243, 62390, 83030, -97960, -26521, -61011, 83390, -38677, 12333, 75987, 46091, 83794, 193})
 	}
 }
 

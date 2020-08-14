@@ -27,10 +27,14 @@ func (s *Stack) Push(data interface{}) {
 }
 
 func (s *Stack) Pop() interface{} {
+	if s.Length <= 0 {
+		return nil
+	}
 	s.Length--
-	data:=s.Head.Data
-	s.Head=s.Head.Next
-	return data
+	defer func() {
+		s.Head=s.Head.Next
+	}()
+	return s.Head.Data
 }
 
 func (s *Stack) Size() int {

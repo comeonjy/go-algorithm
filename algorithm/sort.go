@@ -70,7 +70,7 @@ func quickSort(arr []int, left, right int) []int {
 }
 
 func partition(arr []int, left, right int) int {
-	obj:=left
+	obj := left
 	for left < right {
 		if arr[right] > arr[obj] {
 			right--
@@ -85,4 +85,34 @@ func partition(arr []int, left, right int) int {
 	}
 	arr[obj], arr[left] = arr[left], arr[obj]
 	return left
+}
+
+// 归并排序
+func MergeSort(arr []int) []int {
+	length := len(arr)
+	if length < 2 {
+		return arr
+	}
+	middle := length / 2
+	return merge(MergeSort(arr[0:middle]), MergeSort(arr[middle:]))
+}
+
+func merge(arr1, arr2 []int) []int {
+	result := make([]int, 0)
+	for len(arr1) != 0 && len(arr2) != 0 {
+		if arr1[0] < arr2[0] {
+			result = append(result, arr1[0])
+			arr1 = arr1[1:]
+		} else {
+			result = append(result, arr2[0])
+			arr2 = arr2[1:]
+		}
+	}
+	if len(arr1) > 0 {
+		result = append(result, arr1...)
+	}
+	if len(arr2) > 0 {
+		result = append(result, arr2...)
+	}
+	return result
 }

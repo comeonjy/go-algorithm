@@ -77,3 +77,7 @@ func Eq(a1 []int, a2 []int) bool {
 	}
 	return true
 }
+
+func TestMergeSort(t *testing.T) {
+	fmt.Println(MergeSort(arrSort))
+}

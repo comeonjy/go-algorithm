@@ -1,83 +1,94 @@
-package algorithm
+package algorithm_test
 
 import (
-	"fmt"
 	"math/rand"
 	"sort"
 	"testing"
+
+	"go-algorithm/algorithm"
+	"go-algorithm/pkg/xtest"
 )
 
 var arrSort []int
 var checkSort []int
+
 func init() {
-	for i := 0; i < 1000; i++ {
-		arrSort = append(arrSort, rand.Intn(1000))
+	for i := 0; i < 10000; i++ {
+		arrSort = append(arrSort, rand.Intn(10000))
 	}
-	checkSort=make([]int,len(arrSort))
-	copy(checkSort,arrSort)
+	checkSort = make([]int, len(arrSort))
+	copy(checkSort, arrSort)
 	sort.Ints(checkSort)
 }
 
-func TestBubbleSort(t *testing.T) {
+func TestSort(t *testing.T) {
+	a := make([]int, len(arrSort))
+	t.Run("QuickSort", func(t *testing.T) {
+		copy(a, arrSort)
+		xtest.Assert(t, algorithm.QuickSort(a), checkSort)
+	})
+	t.Run("MergeSort", func(t *testing.T) {
+		copy(a, arrSort)
+		xtest.Assert(t, algorithm.MergeSort(a), checkSort)
+	})
+	t.Run("SelectSort", func(t *testing.T) {
+		copy(a, arrSort)
+		xtest.Assert(t, algorithm.SelectSort(a), checkSort)
+	})
+	t.Run("InsertSort", func(t *testing.T) {
+		copy(a, arrSort)
+		xtest.Assert(t, algorithm.InsertSort(a), checkSort)
+	})
+	t.Run("BubbleSort", func(t *testing.T) {
+		copy(a, arrSort)
+		xtest.Assert(t, algorithm.BubbleSort(a), checkSort)
+	})
 
-	BubbleSort(arrSort)
-	fmt.Println(arrSort)
 }
 
-func TestInsertSort(t *testing.T) {
-	InsertSort(arrSort)
-	fmt.Println(arrSort)
-}
+func BenchmarkSort(b *testing.B) {
+	a := make([]int, len(arrSort))
 
-func TestSelectSort(t *testing.T) {
-	fmt.Println(Eq(SelectSort(arrSort),checkSort))
-}
-
-func TestQuickSort(t *testing.T) {
-	fmt.Println(arrSort)
-	fmt.Println(checkSort)
-	sArr:=QuickSort(arrSort)
-	fmt.Println(sArr)
-	fmt.Println(Eq(sArr,checkSort))
-}
-
-func BenchmarkQuickSort(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		QuickSort(arrSort)
-	}
-}
-
-func BenchmarkSelectSort(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		SelectSort(arrSort)
-	}
-}
-
-func BenchmarkBubbleSort(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		BubbleSort(arrSort)
-	}
-}
-
-func BenchmarkInsertSort(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		InsertSort(arrSort)
-	}
-}
-
-
-func Eq(a1 []int, a2 []int) bool {
-	if len(a1) != len(a2) {
-		return false
-	}
-	for i := 0; i < len(a1); i++ {
-		if a1[i] != a2[i] {
-			return false
+	b.Run("QuickSort", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			copy(a, arrSort)
+			algorithm.QuickSort(a)
 		}
-	}
-	return true
-}
+	})
 
-func TestMergeSort(t *testing.T) {
-	fmt.Println(MergeSort(arrSort))
+	b.Run("sort.Ints", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			copy(a, arrSort)
+			sort.Ints(a)
+		}
+	})
+
+	b.Run("MergeSort", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			copy(a, arrSort)
+			algorithm.MergeSort(a)
+		}
+	})
+
+	b.Run("InsertSort", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			copy(a, arrSort)
+			algorithm.InsertSort(a)
+		}
+	})
+
+	b.Run("SelectSort", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			copy(a, arrSort)
+			algorithm.SelectSort(a)
+		}
+	})
+
+	b.Run("BubbleSort", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			copy(a, arrSort)
+			algorithm.BubbleSort(a)
+		}
+	})
+
 }
